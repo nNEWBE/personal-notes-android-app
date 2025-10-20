@@ -58,10 +58,10 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(username)
-                                .build();
                         if (user != null) {
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(username)
+                                    .build();
                             user.updateProfile(profileUpdates)
                                     .addOnCompleteListener(task2 -> {
                                         if (task2.isSuccessful()) {
@@ -69,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             userData.put("username", username);
                                             userData.put("email", email);
                                             db.collection("users").document(user.getUid()).set(userData);
+                                            // Redirect to MainActivity
                                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                             finish();
                                         }

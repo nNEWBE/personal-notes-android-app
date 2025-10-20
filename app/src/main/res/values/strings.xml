@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Personal Note App</string>
     <string name="add_note">Add Note</string>
+    <string name="login_title">Welcome Back!</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login_button">Login</string>
+    <string name="register_link">Don\'t have an account? Register here</string>
+    <string name="username_hint">Username</string>
+    <string name="register_title">Create an Account</string>
+    <string name="register_button">Register</string>
+    <string name="login_link">Already have an account? Login here</string>
+    <string name="reset_password_title">Forgot Password</string>
+    <string name="reset_password_message">Enter your email</string>
+    <string name="reset_button">Reset</string>
+    <string name="cancel_button">Cancel</string>
 </resources>
