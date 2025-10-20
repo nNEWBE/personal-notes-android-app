@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddNoteActivity extends AppCompatActivity {
@@ -16,6 +18,7 @@ public class AddNoteActivity extends AppCompatActivity {
     private Button buttonSave;
 
     private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
     private String noteId;
 
     @Override
@@ -28,6 +31,7 @@ public class AddNoteActivity extends AppCompatActivity {
         buttonSave = findViewById(R.id.button_save);
 
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         noteId = getIntent().getStringExtra("noteId");
 
@@ -61,7 +65,14 @@ public class AddNoteActivity extends AppCompatActivity {
             return;
         }
 
-        Note note = new Note(title, content, ""); // Empty image URL for now
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "You need to be logged in to save notes.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String userId = currentUser.getUid();
+        Note note = new Note(title, content, "", userId); // Empty image URL for now
 
         if (noteId != null) {
             db.collection("notes").document(noteId).set(note)
