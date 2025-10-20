@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
     }
 
     private void loadNotes(String userId) {
-        db.collection("notes").whereEqualTo("userId", userId)
+        db.collection("users").document(userId).collection("my_notes")
                 .orderBy("title", Query.Direction.ASCENDING)
                 .addSnapshotListener((value, error) -> {
                     if (error != null) {
@@ -97,11 +97,14 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
 
     @Override
     public void onDeleteClick(int position) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) return;
+
         new AlertDialog.Builder(this)
                 .setTitle("Delete Note")
                 .setMessage("Are you sure you want to delete this note?")
                 .setPositiveButton("Yes", (dialog, which) -> {
-                    db.collection("notes").document(noteList.get(position).getId()).delete()
+                    db.collection("users").document(currentUser.getUid()).collection("my_notes").document(noteList.get(position).getId()).delete()
                             .addOnSuccessListener(aVoid -> Toast.makeText(MainActivity.this, "Note deleted", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Error deleting note", Toast.LENGTH_SHORT).show());
                 })

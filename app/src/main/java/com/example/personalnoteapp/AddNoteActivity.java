@@ -43,7 +43,10 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
     private void loadNote() {
-        db.collection("notes").document(noteId).get()
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) return;
+
+        db.collection("users").document(currentUser.getUid()).collection("my_notes").document(noteId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         Note note = documentSnapshot.toObject(Note.class);
@@ -71,18 +74,17 @@ public class AddNoteActivity extends AppCompatActivity {
             return;
         }
 
-        String userId = currentUser.getUid();
-        Note note = new Note(title, content, "", userId); // Empty image URL for now
+        Note note = new Note(title, content, ""); // Empty image URL for now
 
         if (noteId != null) {
-            db.collection("notes").document(noteId).set(note)
+            db.collection("users").document(currentUser.getUid()).collection("my_notes").document(noteId).set(note)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
                         finish();
                     })
                     .addOnFailureListener(e -> Toast.makeText(this, "Error updating note", Toast.LENGTH_SHORT).show());
         } else {
-            db.collection("notes").add(note)
+            db.collection("users").document(currentUser.getUid()).collection("my_notes").add(note)
                     .addOnSuccessListener(documentReference -> {
                         Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
                         finish();
