@@ -126,9 +126,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
                             }
                         }
                         // Update filtered list with all notes initially
-                        filteredNoteList.clear();
-                        filteredNoteList.addAll(noteList);
-                        noteAdapter.notifyDataSetChanged();
+                        filterNotes(searchInput.getText().toString().toLowerCase().trim());
                     }
                 });
     }
@@ -143,33 +141,31 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
     @Override
     public void onDeleteClick(int position) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) return;
+        if (currentUser == null) {
+            return;
+        }
+
+        // To avoid index out of bounds, check if position is valid.
+        if (position < 0 || position >= filteredNoteList.size()) {
+            return;
+        }
+
+        String noteId = filteredNoteList.get(position).getId();
 
         new AlertDialog.Builder(this)
                 .setTitle("Delete Note")
                 .setMessage("Are you sure you want to delete this note?")
                 .setPositiveButton("Yes", (dialog, which) -> {
-                    String noteId = filteredNoteList.get(position).getId();
                     db.collection("users")
                             .document(currentUser.getUid())
                             .collection("my_notes")
                             .document(noteId)
                             .delete()
                             .addOnSuccessListener(aVoid -> {
-                                // Remove from both lists
-                                for (int i = 0; i < noteList.size(); i++) {
-                                    if (noteList.get(i).getId().equals(noteId)) {
-                                        noteList.remove(i);
-                                        break;
-                                    }
-                                }
-                                filteredNoteList.remove(position);
-                                noteAdapter.notifyItemRemoved(position);
+                                // The snapshot listener will handle UI updates automatically.
                                 Toast.makeText(MainActivity.this, "Note deleted", Toast.LENGTH_SHORT).show();
                             })
-                            .addOnFailureListener(e -> 
-                                Toast.makeText(MainActivity.this, "Error deleting note", Toast.LENGTH_SHORT).show()
-                            );
+                            .addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Error deleting note", Toast.LENGTH_SHORT).show());
                 })
                 .setNegativeButton("No", null)
                 .show();
