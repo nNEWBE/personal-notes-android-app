@@ -1,6 +1,7 @@
 package com.example.personalnoteapp;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,16 +9,20 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -182,10 +187,10 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
 
         String noteId = filteredNoteList.get(position).getId();
 
-        new AlertDialog.Builder(this)
-                .setTitle("Delete Note")
+        AlertDialog dialog = new MaterialAlertDialogBuilder(this, R.style.App_Dialog_Custom)
+                .setCustomTitle(getLayoutInflater().inflate(R.layout.dialog_title, null))
                 .setMessage("Are you sure you want to delete this note?")
-                .setPositiveButton("Yes", (dialog, which) -> {
+                .setPositiveButton("Yes", (d, which) -> {
                     db.collection("users")
                             .document(currentUser.getUid())
                             .collection("my_notes")
@@ -199,5 +204,12 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
                 })
                 .setNegativeButton("No", null)
                 .show();
+
+        TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
+        if (messageView != null) {
+            Typeface typeface = ResourcesCompat.getFont(this, R.font.alata);
+            messageView.setTypeface(typeface);
+            messageView.setTextColor(ContextCompat.getColor(this, R.color.ash));
+        }
     }
 }
