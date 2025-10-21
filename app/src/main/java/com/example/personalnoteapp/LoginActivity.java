@@ -1,16 +1,23 @@
 package com.example.personalnoteapp;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -74,12 +81,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showForgotPasswordDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Forgot Password");
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
 
-        final EditText emailInput = new EditText(this);
-        emailInput.setHint("Enter your email");
-        builder.setView(emailInput);
+        // Create a custom title TextView
+        TextView customTitle = new TextView(this);
+        customTitle.setText("Forgot Password");
+        customTitle.setTextColor(getResources().getColor(R.color.ash, getTheme()));
+        Typeface typeface = ResourcesCompat.getFont(this, R.font.bangers);
+        customTitle.setTypeface(typeface);
+        customTitle.setTextSize(32);
+        customTitle.setGravity(Gravity.CENTER);
+        customTitle.setPadding(0, 60, 0, 30);
+
+        builder.setCustomTitle(customTitle);
+
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_forgot_password, null);
+        final TextInputEditText emailInput = view.findViewById(R.id.edit_text_email_forgot);
+
+        builder.setView(view);
 
         builder.setPositiveButton("Reset", (dialog, which) -> {
             String email = emailInput.getText().toString().trim();
@@ -99,6 +118,30 @@ public class LoginActivity extends AppCompatActivity {
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-        builder.show();
+        final AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setColor(Color.WHITE);
+            drawable.setCornerRadius(40f);
+            dialog.getWindow().setBackgroundDrawable(drawable);
+        }
+        dialog.setOnShowListener(dialogInterface -> {
+            Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+            if (positiveButton != null && negativeButton != null) {
+                Typeface buttonTypeface = ResourcesCompat.getFont(this, R.font.bangers);
+                positiveButton.setTypeface(buttonTypeface);
+                negativeButton.setTypeface(buttonTypeface);
+
+                positiveButton.setBackgroundColor(getResources().getColor(R.color.teal_200, getTheme()));
+                positiveButton.setTextColor(getResources().getColor(R.color.white, getTheme()));
+
+                negativeButton.setBackgroundColor(getResources().getColor(R.color.teal_200, getTheme()));
+                negativeButton.setTextColor(getResources().getColor(R.color.white, getTheme()));
+            }
+        });
+
+        dialog.show();
     }
 }
