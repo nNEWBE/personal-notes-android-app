@@ -4,14 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,18 +37,25 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private TextInputEditText searchInput;
+    private ImageButton logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        controller.hide(WindowInsetsCompat.Type.systemBars());
+        controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         notesRecyclerView = findViewById(R.id.notes_recycler_view);
         searchInput = findViewById(R.id.search_input);
         FloatingActionButton fab = findViewById(R.id.fab);
+        logoutButton = findViewById(R.id.logout_button);
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -61,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
 
         fab.setOnClickListener(view -> {
             startActivity(new Intent(MainActivity.this, AddNoteActivity.class));
+        });
+
+        logoutButton.setOnClickListener(v -> {
+            mAuth.signOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         });
 
         setupSearch();
@@ -169,22 +184,5 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
                 })
                 .setNegativeButton("No", null)
                 .show();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_logout) {
-            mAuth.signOut();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="8dp">
+    app:strokeColor="@color/ash"
+    app:strokeWidth="0dp"
+    android:backgroundTint="@color/white"
+    app:cardElevation="3dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iconBackground"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_notes"
+            android:background="@drawable/note_bg"
+            android:scaleType="center"
+            android:clipToOutline="true"
+            android:backgroundTintMode="src_over"
+            android:outlineProvider="background"
+            android:shape="oval" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,16 +34,21 @@
 
             <TextView
                 android:id="@+id/note_title"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:textColor="@color/ash"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/bangers"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/note_content"
                 android:layout_width="match_parent"
+                android:textColor="@color/ash"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/alata" />
 
             <ImageView
                 android:id="@+id/note_image"
@@ -51,4 +71,4 @@
 
     </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

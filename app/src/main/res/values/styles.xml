@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomHintText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:fontFamily">@font/bangers</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/CustomTabTextAppearance</item>
+    </style>
+
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="fontFamily">@font/bangers</item>
+        <item name="android:fontFamily">@font/bangers</item>
+    </style>
+</resources>

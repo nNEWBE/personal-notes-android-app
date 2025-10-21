@@ -5,17 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F8F7FF"
+    android:background="@color/white"
     tools:context=".AddNoteActivity">
 
     <EditText
         android:id="@+id/edit_text_title"
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="16dp"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_write"
+        android:drawablePadding="10dp"
         android:hint="Title"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/bangers"
         android:inputType="textCapWords"
-        android:background="@android:color/transparent"
+        android:textColor="@color/ash"
+        android:elevation="3dp"
+        android:background="@drawable/input_border_bg"
         android:textSize="20sp"
         android:minHeight="48dp"
         android:textStyle="bold" />
@@ -23,20 +30,32 @@
     <EditText
         android:id="@+id/edit_text_content"
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="16dp"
+        android:paddingLeft="10dp"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layout_marginBottom="15dp"
         android:hint="Content"
+        android:fontFamily="@font/alata"
+        android:textColor="@color/ash"
         android:inputType="textMultiLine"
         android:gravity="top"
-        android:background="@android:color/transparent"
+        android:elevation="3dp"
+        android:background="@drawable/input_bg"
         android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/button_save"
+        android:layout_marginHorizontal="16dp"
+        android:elevation="3dp"
+        android:layout_marginBottom="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_bg"
+        app:backgroundTint="@null"
         android:text="Save"
-        android:backgroundTint="@color/purple_500"
-        android:textColor="@android:color/white"/>
+        android:textSize="16sp"
+        android:fontFamily="@font/bangers"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

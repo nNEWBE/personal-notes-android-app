@@ -1,4 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- The base theme in values/themes.xml with a DayNight parent handles dark mode automatically. -->
     <!-- You can override specific attributes for the dark theme here if needed. -->
+
+    <style name="Theme.PersonalNoteApp.FullScreen" parent="Theme.PersonalNoteApp">
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

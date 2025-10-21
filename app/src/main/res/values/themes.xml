@@ -11,4 +11,8 @@
     <style name="Theme.PersonalNoteApp.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
 
     <style name="Theme.PersonalNoteApp.PopupOverlay" parent="ThemeOverlay.Material3.Light" />
+
+    <style name="Theme.PersonalNoteApp.FullScreen" parent="Theme.PersonalNoteApp">
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>
