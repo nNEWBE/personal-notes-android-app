@@ -57,5 +57,4 @@
         android:textSize="16sp"
         android:fontFamily="@font/bangers"
         android:textColor="@android:color/white" />
-
 </LinearLayout>

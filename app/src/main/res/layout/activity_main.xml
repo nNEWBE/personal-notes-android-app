@@ -66,6 +66,7 @@
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusBottomStart="20dp"
             app:boxStrokeWidth="2dp"
+            app:endIconMode="clear_text"
             app:boxStrokeColor="@color/teal_200"
             app:hintTextColor="@color/ash"
             android:hint="Search note"
@@ -77,6 +78,7 @@
                 android:layout_height="wrap_content"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
+                android:textColor="@color/ash"
                 android:fontFamily="@font/bangers"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="10dp"
@@ -90,6 +92,28 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:padding="8dp" />
+
+        <LinearLayout
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_no_notes"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/ash"
+                android:fontFamily="@font/bangers"
+                android:text="No notes available"/>
+
+        </LinearLayout>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"

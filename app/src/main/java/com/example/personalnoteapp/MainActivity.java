@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
     private FirebaseAuth mAuth;
     private TextInputEditText searchInput;
     private ImageButton logoutButton;
+    private LinearLayout emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
         searchInput = findViewById(R.id.search_input);
         FloatingActionButton fab = findViewById(R.id.fab);
         logoutButton = findViewById(R.id.logout_button);
+        emptyView = findViewById(R.id.empty_view);
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -79,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
         });
 
         setupSearch();
+        updateEmptyViewVisibility();
     }
 
     private void setupSearch() {
@@ -108,6 +112,17 @@ public class MainActivity extends AppCompatActivity implements NoteAdapter.OnNot
             }
         }
         noteAdapter.notifyDataSetChanged();
+        updateEmptyViewVisibility();
+    }
+
+    private void updateEmptyViewVisibility() {
+        if (filteredNoteList.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            notesRecyclerView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            notesRecyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
